@@ -1,2 +1,0 @@
-// Notificações (paciente e terapeuta)
-function notes(w){var l=S.notes.filter(function(n){return n.to===w});return '<h1>Notificações</h1><div class="card">'+(l.length?l.map(function(n){return '<div class="item"><span>'+n.msg+'</span><span class="mu">'+n.t+'</span></div>'}).join(''):'<span class="mu">Nenhuma notificação.</span>')+'</div>'}
