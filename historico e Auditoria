@@ -1,0 +1,2 @@
+// TERAPEUTA · Histórico e auditoria
+function historico(){return '<h1>Histórico e auditoria</h1><div class="card">'+(S.log.length?S.log.map(function(e){return '<div class="item"><span><b>'+e.who+'</b> — '+e.what+'<br><span class="mu">'+e.from+' → '+e.to+'</span></span><span class="mu">'+e.t+'</span></div>'}).join(''):'<span class="mu">Nenhuma alteração ainda.</span>')+'</div>';}
