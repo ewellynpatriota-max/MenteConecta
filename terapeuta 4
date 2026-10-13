@@ -1,0 +1,23 @@
+// TERAPEUTA · Início (painel). Também despacha as outras abas da terapeuta
+function therapist(){
+  if(S.tab==='notes')return notes('t');
+  if(S.tab==='log')return historico();
+  if(S.tab==='pts')return pacientes();
+ var n={conf:S.st==='conf'?1:0,pend:(S.st==='ther'||S.st==='pac')?1:0,late:S.st==='late'?1:0};
+ var h='<h1>Olá, [nome]</h1><div class="grid"><div class="card"><div class="num">3</div><div class="mu">atendimentos hoje</div></div><div class="card"><div class="num">'+(2+n.conf)+'</div><div class="mu">confirmados</div></div><div class="card"><div class="num">'+(1+n.pend)+'</div><div class="mu">aguardando</div></div><div class="card"><div class="num">'+(1+n.late)+'</div><div class="mu">atrasos</div></div></div>';
+ if(S.st==='pac')h+='<div class="warn">Maria ainda não confirmou o atendimento.</div>';
+ if(S.st==='resched')h+='<div class="warn">Maria solicitou reagendamento: '+(S.pref||'sem preferências')+'.</div>';
+ h+='<h2>Atendimento em foco</h2><div class="card col"><b>Maria Silva — '+S.when+'</b><div>'+pill(S.st)+(S.late?' <span class="mu">'+S.late+'</span>':'')+'</div><div class="row">';
+ if(S.st==='ther')h+=btn('tc','Confirmar minha disponibilidade','pr');
+ if(S.st==='pac')h+=btn('rm2','Enviar novo lembrete')+btn('mc','Confirmar manualmente');
+ if(S.st==='resched')h+=btn('of','Oferecer quinta, 08/10 · 15:00','pr');
+ if(S.st!=='cp'&&S.st!=='ct')h+=btn('ab','Avisar indisponibilidade (cancelar)','dg');
+ h+='</div></div><h2>Hoje</h2><div class="card"><div class="item"><span>09:00 — Maria Silva</span>'+pill(S.st)+'</div><div class="item"><span>10:00 — João Santos</span>'+pill('pac')+'</div><div class="item"><span>11:00 — Ana Costa</span>'+pill('late')+'</div></div>';
+ return h}
+document.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=b.id,t=b.dataset.t;
+ if(i==='tc')return act('Terapeuta','confirmou disponibilidade','p','Confirme seu atendimento de '+S.when+'.','pac');
+ if(i==='rm2')return act('Terapeuta','enviou novo lembrete','p','Lembrete: confirme seu atendimento.');
+ if(i==='mc')return act('Terapeuta','confirmou manualmente','p','Seu atendimento foi atualizado.','conf');
+ if(i==='of'){S.when='Quinta-feira, 08/10 · 15:00';return act('Terapeuta','ofereceu novo horário','p','Novo horário proposto: '+S.when+'. Confirme.','pac')}
+ if(i==='ab')return act('Terapeuta','avisou indisponibilidade','p','Seu atendimento precisará ser cancelado.','ct');
+});
