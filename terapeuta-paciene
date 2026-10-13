@@ -1,5 +1,0 @@
-// TERAPEUTA · Pacientes (perfil e informações de saúde)
-function pacientes(){return '<h1>Maria Silva</h1><div class="card col"><b>Dados pessoais</b><span>Nome social: Maria · 28 anos · 12/03/1998</span><span>E-mail: maria@email.com</span><span>Cor/raça: [informação]</span></div><div class="card col"><b>Informações de saúde</b><span class="mu">Acesso restrito à terapeuta autorizada. Nunca aparece na agenda nem em notificações.</span>'+(S.health?'<span>CID: [informação cadastrada]</span><span>Medicamentos: [informação]</span><span>Alergias: [informação]</span>'+btn('hh','Ocultar'):btn('sh','Mostrar informações de saúde'))+'</div>';}
-document.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=b.id,t=b.dataset.t;
- if(i==='sh'){S.health=true;return render()}if(i==='hh'){S.health=false;return render()}
-});
