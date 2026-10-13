@@ -1,0 +1,17 @@
+// Estado, utilitários e navegação (usado por todas as páginas)
+var S={role:'p',tab:'home',st:'ther',when:'Quarta-feira, 07/10 · 15:00',late:'',form:null,health:false,notes:[],log:[]};
+var ST={ther:['Aguardando confirmação da terapeuta','#B7791F'],pac:['Aguardando confirmação do paciente','#B7791F'],conf:['Confirmado','#4A7556'],late:['Atraso informado','#C0601E'],resched:['Reagendamento solicitado','#3F6FA8'],cp:['Cancelado pelo paciente','#B0463C'],ct:['Cancelado pela terapeuta','#B0463C']};
+function now(){return new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
+function act(who,what,to,msg,ns){var prev=ST[S.st][0];S.st=ns||S.st;S.log.unshift({t:now(),who:who,what:what,from:prev,to:ST[S.st][0]});if(to)S.notes.unshift({to:to,t:now(),msg:msg});render()}
+function pill(k){var s=ST[k];return '<span class="pill"><span class="dot" style="background:'+s[1]+'"></span>'+s[0]+'</span>'}
+function btn(id,label,cls){return '<button id="'+id+'" class="'+(cls||'')+'">'+label+'</button>'}
+function render(){
+ var p=S.role==='p';document.getElementById('rp').className=p?'on':'';document.getElementById('rt').className=p?'':'on';
+ var tabs=p?[['home','Início'],['notes','Notificações']]:[['home','Início'],['pts','Pacientes'],['notes','Notificações'],['log','Histórico']];
+ document.getElementById('nav').innerHTML=tabs.map(function(t){return '<button data-t="'+t[0]+'" class="'+(S.tab===t[0]?'on':'')+'">'+t[1]+'</button>'}).join('');
+ document.getElementById('app').innerHTML=p?patient():therapist()}
+document.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=b.id,t=b.dataset.t;
+ if(t){S.tab=t;return render()}
+ if(i==='rp'){S.role='p';S.tab='home';return render()}if(i==='rt'){S.role='t';S.tab='home';return render()}
+ if(i==='x'){S.form=null;return render()}
+});
